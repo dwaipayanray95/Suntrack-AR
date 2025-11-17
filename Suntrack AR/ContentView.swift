@@ -35,8 +35,8 @@ struct ARViewContainer: UIViewRepresentable {
 
         arView.session.run(config)
 
-        // For now: add a simple test sphere 5m in front of the camera
-        addTestSphere(to: arView)
+        // For now: add a simple dummy sun path arc in front of the camera
+        addDummySunPath(to: arView)
 
         return arView
     }
@@ -45,18 +45,34 @@ struct ARViewContainer: UIViewRepresentable {
         // For this simple version, nothing to update yet
     }
 
-    private func addTestSphere(to arView: ARView) {
-        let sphere = MeshResource.generateSphere(radius: 0.1)
-        let material = SimpleMaterial()
-        let entity = ModelEntity(mesh: sphere, materials: [material])
-
-        // Place it 5 meters straight ahead of the camera
-        var transform = Transform.identity
-        transform.translation = [0, 0, -5]
-        entity.transform = transform
-
+    private func addDummySunPath(to arView: ARView) {
         let anchor = AnchorEntity(world: .zero)
-        anchor.addChild(entity)
+
+        let radius: Float = 5.0
+        let pointCount = 9 // number of points along the path
+
+        for i in 0..<pointCount {
+            let t = Float(i) / Float(pointCount - 1) // 0...1
+
+            // Horizontal sweep from -60° to +60°
+            let horizontalAngle = (-Float.pi / 3) + t * (2 * Float.pi / 3)
+
+            // Altitude between 25° and 55°
+            let altitudeAngle = (25.0 * .pi / 180.0) + t * ((55.0 - 25.0) * .pi / 180.0)
+
+            // Convert spherical (radius, azimuth, altitude) to ARKit world space (x right, y up, z forward)
+            let x = radius * cos(altitudeAngle) * sin(horizontalAngle)
+            let y = radius * sin(altitudeAngle)
+            let z = -radius * cos(altitudeAngle) * cos(horizontalAngle)
+
+            let sphere = MeshResource.generateSphere(radius: 0.08)
+            let material = SimpleMaterial(color: .yellow, isMetallic: false)
+            let entity = ModelEntity(mesh: sphere, materials: [material])
+            entity.position = SIMD3<Float>(x, y, z)
+
+            anchor.addChild(entity)
+        }
+
         arView.scene.addAnchor(anchor)
     }
 }
