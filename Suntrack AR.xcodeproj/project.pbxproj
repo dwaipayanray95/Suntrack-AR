@@ -400,6 +400,9 @@
 				DEVELOPMENT_TEAM = 3HZXK9F6KJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "“Suntrack AR needs camera access to show the real world behind the sun overlay.”";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "“Suntrack AR uses your location to calculate the sun’s position.”";
+				INFOPLIST_KEY_NSMotionUsageDescription = "“Suntrack AR uses motion sensors to align the sun with your device orientation.”";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -432,6 +435,9 @@
 				DEVELOPMENT_TEAM = 3HZXK9F6KJ;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "“Suntrack AR needs camera access to show the real world behind the sun overlay.”";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "“Suntrack AR uses your location to calculate the sun’s position.”";
+				INFOPLIST_KEY_NSMotionUsageDescription = "“Suntrack AR uses motion sensors to align the sun with your device orientation.”";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
