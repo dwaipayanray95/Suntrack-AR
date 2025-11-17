@@ -49,7 +49,7 @@ struct ARViewContainer: UIViewRepresentable {
         let anchor = AnchorEntity(world: .zero)
 
         let radius: Float = 5.0
-        let pointCount = 9 // number of points along the path
+        let pointCount = 13 // number of points along the path
 
         for i in 0..<pointCount {
             let t = Float(i) / Float(pointCount - 1) // 0...1
@@ -57,15 +57,16 @@ struct ARViewContainer: UIViewRepresentable {
             // Horizontal sweep from -60° to +60°
             let horizontalAngle = (-Float.pi / 3) + t * (2 * Float.pi / 3)
 
-            // Altitude between 25° and 55°
-            let altitudeAngle = (25.0 * .pi / 180.0) + t * ((55.0 - 25.0) * .pi / 180.0)
+            // Altitude: simple arch from 0° (horizon) up to ~65° at the center, back to 0°
+            let maxAltitudeDeg: Float = 65.0
+            let altitudeAngle = (maxAltitudeDeg * sin(t * .pi)) * (.pi / 180.0)
 
             // Convert spherical (radius, azimuth, altitude) to ARKit world space (x right, y up, z forward)
             let x = radius * cos(altitudeAngle) * sin(horizontalAngle)
             let y = radius * sin(altitudeAngle)
             let z = -radius * cos(altitudeAngle) * cos(horizontalAngle)
 
-            let sphere = MeshResource.generateSphere(radius: 0.08)
+            let sphere = MeshResource.generateSphere(radius: 0.12)
             let material = SimpleMaterial(color: .yellow, isMetallic: false)
             let entity = ModelEntity(mesh: sphere, materials: [material])
             entity.position = SIMD3<Float>(x, y, z)
